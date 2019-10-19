@@ -1,8 +1,8 @@
 'use strict';
 
-function getGitHubRepos(Solcodeguy) {
+function getGitHubRepos(username) {
   // generate the URL
-  const url = `https://api.github.com/users/${Solcodeguy}/repos`;
+  const url = `https://api.github.com/users/${username}/repos`;
   // header about which API version to use   
   const options = {
     headers: new Headers({
@@ -10,7 +10,7 @@ function getGitHubRepos(Solcodeguy) {
     })
   };
 
-  console.log(`Finding repos for ${Solcodeguy}`);
+  console.log(`Finding repos for ${username}`);
   
   fetch(url, options)
     .then(response => {
@@ -38,8 +38,11 @@ function displayResults(responseJson) {
       `<li><a href='${obj.url}'>${obj.name}</a></li>`
     )
   );
+  // Input value
+   const username = $("#js-github-handle").val();
   // username equal to the search value
-  $("#username").text(`${Solcodeguy}`);
+  console.log(username);
+  $("#username").text(`${username}`);
 
   // display the results section
   $("#results").removeClass("hidden");
@@ -50,8 +53,8 @@ function displayResults(responseJson) {
 function watchForm() {
   $("form").submit(event => {
     event.preventDefault();
-    const Solcodeguy = $("#js-github-handle").val();
-    getGitHubRepos(Solcodeguy);
+    const username = $("#js-github-handle").val();
+    getGitHubRepos(username);
   });
 }
 
